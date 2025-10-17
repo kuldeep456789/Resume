@@ -1,0 +1,151 @@
+% Resume in LaTeX
+% Author: Kuldeep Prajapati
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.2in}
+\addtolength{\topmargin}{-0.6in}
+\addtolength{\textheight}{1.4in}
+
+% Formatting settings
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-9pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+% Custom commands
+\newcommand{\resumeItem}[1]{\item[$\bullet$] \small{#1 \vspace{-2pt}}}
+\newcommand{\resumeSubheading}[4]{
+  \item
+  \begin{tabularx}{\textwidth}[t]{Xs}
+    \textbf{#1} & \textbf{#2} \\
+    \textit{#3} & \textit{#4} \\
+  \end{tabularx}\vspace{10pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{1.0\textwidth}{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textbf{#2} \\
+  \end{tabular*}\vspace{-8pt}
+}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, label={}]\setlength\itemsep{3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-8pt}}
+
+% Resume starts here
+\begin{document}
+
+%---------- HEADING ----------
+\begin{center}
+    {\Huge \scshape Kuldeep Prajapati} \ \vspace{2pt} \\
+     Ranchi, Jharkhand \ \vspace{2pt} \\
+    \small
+    {\faPhone\ \underline{+91 8235494985}} ~
+    \href{mailto:kuldeeppraj2002@gmail.com}{\faEnvelope\ \underline{kuldeeppraj2002@gmail.com}} ~
+    \href{https://www.linkedin.com/in/kuldeep-prajapati-005080257/}{\faLinkedin\ \underline{LinkedIn}} ~
+    \href{https://github.com/kuldeep456789}{\faGithub\ \underline{GitHub}} ~
+    \href{https://leetcode.com/u/Kp_prajapati/}{\includegraphics[height=0.3cm]{leetcode.jpg} \underline{LeetCode}} ~
+    \href{https://portfolio-amber-alpha-78.vercel.app/}{\includegraphics[height=0.3cm]{cv.png} \underline{Portfolio}}
+\end{center}
+
+%----------- PROJECTS -----------
+\section{PROJECTS}
+\resumeItemListStart
+
+\resumeProjectHeading
+  {Crowd Detection \faExternalLink{} \textbar\
+    \href{https://safety-snap.vercel.app/}{\textcolor{blue}{Live}} 
+    }
+  {Sep 2025}
+\resumeItemListStart
+\resumeItem{\textbf{Tech Stack:} Python, Flask, YOLOv8, DeepSORT, OpenCV, React.js, Supabase, Tailwind CSS, Recharts}
+\resumeItem{Developed an \textbf{AI-based crowd detection and monitoring platform} using YOLOv8 and DeepSORT for \textbf{real-time object tracking}, \textbf{density estimation}, and \textbf{anomaly detection} in live surveillance footage.}
+\resumeItem{Built a \textbf{React.js dashboard} with Tailwind CSS and Recharts for dynamic visualization, improving analytical responsiveness by \textbf{30\%}.}
+\resumeItem{Optimized Flask–Supabase \textbf{REST API} architecture to ensure secure, low-latency communication, \textbf{reducing backend response time by 25\%}. Developed automated report generation (CSV/PDF) and predictive analytics for crowd trends, \textbf{saving 40\% of manual analysis time}.}
+\resumeItem{Applied advanced \textbf{computer vision} and \textbf{AI techniques} to enhance detection accuracy under variable lighting and motion conditions.}
+\resumeItemListEnd
+\resumeProjectHeading
+  {ConnectNow \faExternalLink{} \textbar\
+    \href{https://connect-023.vercel.app/}{\textcolor{blue}{Live}}}
+  {Aug 2025}
+\resumeItemListStart
+\resumeItem{\textbf{Tech Stack:} React.js, Tailwind CSS, WebRTC, Socket.IO, Supabase, Whisper API, Chart.js, PostgreSQL, Node.js}
+\resumeItem{Engineered a \textbf{real-time video conferencing system} enabling \textbf{secure meetings, live chat, screen sharing}, and group collaboration with WebRTC and Socket.IO integration.}
+\resumeItem{Integrated the \textbf{OpenAI Whisper API} for automatic transcription, \textbf{AI-generated meeting summaries}, and key action-point extraction, with data securely stored in Supabase.}
+\resumeItem{Implemented \textbf{role-based authentication}, user management, and persistent chat logs using Supabase Auth for enhanced data security. Designed analytical dashboards with Chart.js and PostgreSQL to visualize engagement metrics, improving user insight accessibility by \textbf{35\%}.}
+\resumeItem{Deployed on Vercel cloud using \textbf{CI/CD pipelines}, achieving \textbf{99.9\% uptime} and scalable performance for global users.}
+\resumeItemListEnd
+\resumeItemListEnd
+%----------- INTERNSHIP -----------
+\section{INTERNSHIP}
+
+\resumeProjectHeading
+  {\textbf{AI/ML Intern – Outlier.ai}}
+  {Jan 2024 -- Feb 2024}
+\resumeItemListStart
+  \resumeItem{Fine-tuned NLP and LLM-based models to handle complex user queries, improving \textbf{accuracy by 20\%} across coding and knowledge domains and \textbf{context-aware query classification pipelines}, enhancing response efficiency and reducing latency}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{AI Research Intern – Soul.ai}}
+  {Mar 2024 -- May 2024}
+\resumeItemListStart
+  \resumeItem{Researched and implemented \textbf{semantic search} and \textbf{knowledge retrieval models}, improving collaboration efficiency by \textbf{20\%} and Enhanced NLP models for intent detection and semantic similarity, boosting decision-making accuracy and system adaptability}
+\resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Software Developer Intern – Bluestock (Fintech.in)}}
+  {June 2025 -- July 2025}
+\resumeItemListStart
+\resumeItem{Integrated machine learning algorithms for \textbf{stock price prediction and screening}, increasing market trend accuracy by \textbf{25\%}.}
+\resumeItem{Collaborated with multi-disciplinary teams to improve \textbf{app scalability, backend integration}, and feature deployment efficiency.}
+\resumeItemListEnd
+
+%----------- TECHNICAL SKILLS -----------
+\section{TECHNICAL SKILLS}
+\resumeItemListStart
+\resumeItem{\textbf{Frontend:} HTML, CSS, JavaScript, React.js, Tailwind CSS}
+\resumeItem{\textbf{Backend:} Flask, Node.js, Express.js, MongoDB, PostgreSQL, Supabase}
+\resumeItem{\textbf{AI/ML:} YOLOv8, OpenCV, DeepSORT, Whisper API, TensorFlow, NLP}
+\resumeItem{\textbf{DevOps \& Tools:} Git, Docker, Kubernetes, Jenkins, CI/CD, REST APIs}
+\resumeItem{\textbf{Languages:} Python, Go, C}
+\resumeItemListEnd
+
+%----------- CERTIFICATIONS -----------
+\section{CERTIFICATIONS}
+\resumeItemListStart
+\resumeItem{Software Development Internship – Bluestock.in}
+\resumeItemListEnd
+
+%----------- EDUCATION -----------
+\section{EDUCATION}
+\resumeItemListStart
+    \begin{itemize}[topmargin=1,leftmargin=-0.17in, label={}]
+        \resumeSubheading
+          {Lovely Professional University}{Aug 2022 -- May 2026}
+          {B.Tech in Computer Science and Engineering (ML \& AI Specialization)}{Phagwara, Punjab}
+    \end{itemize}
+\resumeItemListEnd
+
+\end{document}
