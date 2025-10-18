@@ -254,23 +254,24 @@
   <button id="downloadBtn" style="margin: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">
   📄 Download PDF
 </button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/4/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
   document.getElementById("downloadBtn").addEventListener("click", () => {
-    const { jsPDF } = window.jspdf;
-    const resume = document.querySelector(".container");
+  const { jsPDF } = window.jspdf;
+  const resume = document.querySelector(".container");
 
-    html2canvas(resume, { scale: 2 }).then(canvas => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("Kuldeep_Prajapati_Resume.pdf");
-    });
+  html2canvas(resume, { scale: 1.5, useCORS: true }).then(canvas => {
+    const imgData = canvas.toDataURL("image/jpeg", 0.7); // JPEG + compression
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("Kuldeep_Prajapati_Resume.pdf");
   });
+});
+
 </script>
 
 </body>
