@@ -55,6 +55,7 @@ body {
   color: #2d2f92;
   text-decoration: underline;
 }
+
 .section {
   margin-bottom: 8px;
   padding-bottom: 3px;
@@ -83,17 +84,21 @@ body {
 
 .skill-list li {
   margin-bottom: 4px;
-  padding-left: 15px;
-  position: relative;
 }
 
-.skill-list li:before {
-  content: "●";
-  position: absolute;
-  left: 0;
+.skill-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 40px;
 }
 
-.skill-list li strong {
+.skill-category {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.skill-category strong {
   color: #2d2f92;
   font-family: Georgia, serif;
   font-size: 10pt;
@@ -143,8 +148,8 @@ body {
   line-height: 1.2;
 }
 
-.item-description li:before {
-  content: "●";
+.item-description li::before {
+  content: "- ";
   position: absolute;
   left: 0;
 }
@@ -159,8 +164,8 @@ body {
   position: relative;
 }
 
-.certificates-list li:before {
-  content: "●";
+.certificates-list li::before {
+  content: "- ";
   position: absolute;
   left: 0;
 }
@@ -182,8 +187,8 @@ body {
   position: relative;
 }
 
-.achievements-list li:before {
-  content: "•";
+.achievements-list li::before {
+  content: "- ";
   position: absolute;
   left: 0;
 }
@@ -227,9 +232,9 @@ body {
     margin: 0;
     padding: 0;
   }
+
   .container {
     max-width: 100%;
     padding: 7px;
   }
 }
-
