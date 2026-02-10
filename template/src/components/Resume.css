@@ -1,0 +1,244 @@
+/* Base Reset & Variables */
+:root {
+    --theme-color: #332293;
+    --font-family: Georgia, serif;
+    --bg-color: black;
+    --text-color: #000;
+    --paper-bg: white;
+    --line-height: 1.1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: var(--line-height);
+    -webkit-print-color-adjust: exact;
+}
+
+.resume-container {
+    width: 210mm;
+    /* A4 width */
+    min-height: 297mm;
+    /* A4 height */
+    margin: 0 auto;
+    padding: 20px 50px;
+    /* Original padding */
+    background: var(--paper-bg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .resume-container {
+        width: 100%;
+        margin: 0;
+        padding: 20px 50px;
+        /* Maintaining padding in print */
+        box-shadow: none;
+        min-height: auto;
+    }
+
+    /* Hide UI elements during print */
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* Header */
+.header {
+    margin-bottom: 10px;
+}
+
+.header h1 {
+    font-size: 18pt;
+    font-weight: normal;
+    color: var(--theme-color);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.contact-info {
+    font-size: 10pt;
+    font-weight: normal;
+    color: var(--text-color);
+    margin-top: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    line-height: 1.4;
+}
+
+.contact-left {
+    text-align: left;
+}
+
+.contact-right {
+    text-align: right;
+}
+
+.contact-info a {
+    color: var(--theme-color);
+    text-decoration: underline;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 8px;
+    padding-bottom: 3px;
+}
+
+.section-title {
+    font-size: 12.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--theme-color);
+    border-bottom: 0.8px solid var(--text-color);
+    padding-bottom: 2px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.section-content {
+    font-size: 12px;
+    margin-left: 0;
+}
+
+/* Skills */
+.skill-list {
+    list-style: none;
+}
+
+.skill-list li {
+    margin-bottom: 4px;
+}
+
+.skill-category strong {
+    color: var(--theme-color);
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+/* Experience & Projects */
+.experience-item,
+.project-item {
+    margin-bottom: 8px;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3px;
+}
+
+.item-title {
+    font-weight: normal;
+    font-size: 11pt;
+    color: var(--theme-color);
+}
+
+.item-title a {
+    color: var(--theme-color);
+    text-decoration: none;
+}
+
+.item-subtitle {
+    font-style: italic;
+    font-size: 12px;
+    color: #333;
+}
+
+.item-date {
+    font-size: 12px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.item-description {
+    list-style: none;
+    margin-top: 2px;
+}
+
+.item-description li {
+    margin-bottom: 3px;
+    padding-left: 15px;
+    position: relative;
+    line-height: 1.2;
+}
+
+.item-description li::before,
+.achievements-list li::before {
+    content: "• ";
+    /* Unified bullet */
+    position: absolute;
+    left: 0;
+}
+
+/* Certifications */
+.certificates-list {
+    list-style: none;
+}
+
+.certificates-list li {
+    margin-bottom: 4px;
+}
+
+.certificates-list li strong {
+    color: var(--theme-color);
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+/* Achievements */
+.achievements-list {
+    list-style: none;
+}
+
+.achievements-list li {
+    margin-bottom: 3px;
+    padding-left: 15px;
+    position: relative;
+}
+
+.achievements-list li strong {
+    color: var(--theme-color);
+    font-size: 11pt;
+    font-weight: normal;
+}
+
+/* Education */
+.education-item {
+    margin-bottom: 7px;
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1px;
+}
+
+.institution {
+    font-weight: normal;
+    font-size: 11pt;
+    color: var(--theme-color);
+}
+
+.location {
+    font-size: 12px;
+}
+
+.degree {
+    font-size: 12px;
+    margin-top: 2px;
+}

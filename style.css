@@ -5,11 +5,16 @@
 }
 
 body {
-  font-family: "Calibri", "Arial", sans-serif;
+  font-family: Georgia, serif;
   background: black;
   color: #000;
   line-height: 1.1;
 }
+
+li {
+  font-size: 9pt;
+}
+
 
 .container {
   max-width: 850px;
@@ -24,16 +29,14 @@ body {
 
 .header h1 {
   font-size: 18pt;
-  font-weight: bold;
-  font-family: Georgia, serif;
-  color: #2d2f92;
+  font-weight: normal;
+  color: #332293;
   margin-bottom: 4px;
   letter-spacing: 1px;
 }
 
 .contact-info {
   font-size: 10pt;
-  font-family: Georgia, serif;
   font-weight: normal;
   color: #000;
   margin-top: 2px;
@@ -52,7 +55,7 @@ body {
 }
 
 .contact-info a {
-  color: #2d2f92;
+  color: #332293;
   text-decoration: underline;
 }
 
@@ -63,10 +66,9 @@ body {
 
 .section-title {
   font-size: 12.5pt;
-  font-weight: normal;
-  font-family: Georgia, serif;
+  font-weight: bold;
   text-transform: uppercase;
-  color: #473992;
+  color: #332293;
   border-bottom: 0.8px solid #000;
   padding-bottom: 2px;
   margin-bottom: 6px;
@@ -99,8 +101,7 @@ body {
 }
 
 .skill-category strong {
-  color: #2d2f92;
-  font-family: Georgia, serif;
+  color: #332293;
   font-size: 10pt;
   font-weight: bold;
 }
@@ -118,11 +119,16 @@ body {
 }
 
 .item-title {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 11pt;
-  color: #2d2f92;
-  font-family: Georgia, serif;
+  color: #332293;
 }
+
+.item-title a {
+  color: #332293;
+  text-decoration: none;
+}
+
 
 .item-subtitle {
   font-style: italic;
@@ -149,7 +155,7 @@ body {
 }
 
 .item-description li::before {
-  content: "- ";
+  content: "• ";
   position: absolute;
   left: 0;
 }
@@ -160,19 +166,11 @@ body {
 
 .certificates-list li {
   margin-bottom: 4px;
-  padding-left: 15px;
-  position: relative;
 }
 
-.certificates-list li::before {
-  content: "- ";
-  position: absolute;
-  left: 0;
-}
 
 .certificates-list li strong {
-  color: #2d2f92;
-  font-family: Georgia, serif;
+  color: #332293;
   font-size: 10pt;
   font-weight: bold;
 }
@@ -194,10 +192,9 @@ body {
 }
 
 .achievements-list li strong {
-  color: #2d2f92;
-  font-family: Georgia, serif;
+  color: #332293;
   font-size: 11pt;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .education-item {
@@ -212,10 +209,9 @@ body {
 }
 
 .institution {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 11pt;
-  color: #2d2f92;
-  font-family: Georgia, serif;
+  color: #332293;
 }
 
 .location {
