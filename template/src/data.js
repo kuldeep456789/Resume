@@ -20,7 +20,7 @@ export const initialResumeState = {
     experience: [
         {
             company: "Bluestock.in",
-            role: "Backend Developer Intern", // derived from description
+            role: "Backend Developer Intern",
             date: "Jun'24 – Jul'24",
             description: [
                 "Backend Developer Intern, optimized backend services and APIs to deliver faster response times and improved reliability at scale",
@@ -29,7 +29,7 @@ export const initialResumeState = {
         },
         {
             company: "Outlier.ai",
-            role: "AI Intern", // derived
+            role: "AI Intern",
             date: "Oct'24 – Dec'24",
             description: [
                 "Artificial Intelligence Intern focused on training and evaluating LLMs, enhancing accuracy and query understanding",

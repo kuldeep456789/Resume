@@ -3,7 +3,7 @@ import { useReactToPrint } from 'react-to-print';
 import { initialResumeState } from './data';
 import Resume from './components/Resume';
 import Editor from './components/Editor';
-import './components/Resume.css'; // Global styles if needed
+import './components/Resume.css';
 
 function App() {
   const [data, setData] = useState(initialResumeState);

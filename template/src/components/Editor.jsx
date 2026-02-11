@@ -15,8 +15,6 @@ const Editor = ({ data, onChange, onDownload }) => {
                 updatedArray[index] = value;
             }
             newData[section] = updatedArray;
-        } else if (subField) {
-            newData[section] = { ...data[section], [field]: value };
         } else {
             newData[section] = { ...data[section], [field]: value };
         }
