@@ -211,8 +211,6 @@ const Editor = ({ data, onChange, onDownload }) => {
         </div>
     );
 };
-
-// Styles
 const headerStyle = { cursor: 'pointer', padding: '10px 0', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' };
 const inputStyle = { width: '100%', padding: '8px', marginBottom: '8px', border: '1px solid #ddd', borderRadius: '4px' };
 const textareaStyle = { width: '100%', padding: '8px', marginBottom: '8px', border: '1px solid #ddd', borderRadius: '4px', minHeight: '60px' };

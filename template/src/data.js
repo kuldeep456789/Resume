@@ -12,7 +12,8 @@ export const initialResumeState = {
         categories: [
             { name: "Programming Languages", items: "Python, JavaScript, HTML/CSS, SQL" },
             { name: "Frameworks & Libraries", items: "React, Node, Flask, Express, DSA, Pandas, NumPy, Matplotlib, TensorFlow, OpenCV" },
-            { name: "Databases", items: "MongoDB, PostgreSQL, Prisma ORM" },
+            // { name: "Databases", items: "MongoDB, PostgreSQL, Prisma ORM" },
+            { name: "Database", items: "MongoDB, PostreSQL" },
             { name: "Developer Tools", items: "Git, Git-Actions, Google colab, JupterNotebook Vercel, Postman" },
             { name: "Soft Skills", items: "Adaptability, Time Management" },
         ],
