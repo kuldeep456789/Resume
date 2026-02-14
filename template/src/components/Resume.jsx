@@ -56,7 +56,11 @@ const Resume = React.forwardRef(({ data }, ref) => {
                         <div className="experience-item" key={i}>
                             <div className="item-header">
                                 <div>
-                                    <div className="item-title">{exp.company}</div>
+                                    <div className="item-title">
+                                        {exp.company}
+                                        {exp.role && <span style={{ fontSize: '0.9em', fontWeight: 'normal', marginLeft: '10px' }}>| {exp.role}</span>}
+                                        {exp.category && <span style={{ fontSize: '0.8em', fontStyle: 'italic', color: '#666', marginLeft: '10px', background: '#eee', padding: '2px 6px', borderRadius: '4px' }}>{exp.category}</span>}
+                                    </div>
                                 </div>
                                 <div className="item-date">{exp.date}</div>
                             </div>

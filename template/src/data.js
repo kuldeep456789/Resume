@@ -21,6 +21,7 @@ export const initialResumeState = {
     experience: [
         {
             company: "Bluestock.in",
+            category: "Software Development",
             role: "Backend Developer Intern",
             date: "Jun'24 – Jul'24",
             description: [
@@ -30,6 +31,7 @@ export const initialResumeState = {
         },
         {
             company: "Outlier.ai",
+            category: "Artificial Intelligence",
             role: "AI Intern",
             date: "Oct'24 – Dec'24",
             description: [
