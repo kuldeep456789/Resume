@@ -2,11 +2,20 @@ import React from 'react';
 import './Resume.css';
 
 const Resume = React.forwardRef(({ data }, ref) => {
-    const { header, skills, experience, projects, certifications, achievements, education, settings } = data;
+    const { header, skills, experience, projects, certifications, achievements, education, settings, sectionTitles } = data;
 
     const style = {
         '--theme-color': settings.themeColor,
         '--font-family': settings.fontFamily,
+    };
+
+    const titles = sectionTitles || {
+        skills: "SKILLS",
+        experience: "INTERNSHIP",
+        projects: "PROJECTS",
+        certifications: "TRAINING",
+        achievements: "ACHIEVEMENTS",
+        education: "EDUCATION"
     };
 
     return (
@@ -36,7 +45,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* SKILLS */}
             <div className="section">
-                <div className="section-title">SKILLS</div>
+                <div className="section-title">{titles.skills}</div>
                 <div className="section-content">
                     <ul className="skill-list">
                         {skills.categories.map((cat, i) => (
@@ -50,7 +59,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* INTERNSHIP */}
             <div className="section">
-                <div className="section-title">INTERNSHIP</div>
+                <div className="section-title">{titles.experience}</div>
                 <div className="section-content">
                     {experience.map((exp, i) => (
                         <div className="experience-item" key={i}>
@@ -76,7 +85,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* PROJECTS */}
             <div className="section">
-                <div className="section-title">PROJECTS</div>
+                <div className="section-title">{titles.projects}</div>
                 <div className="section-content">
                     {projects.map((proj, i) => (
                         <div className="project-item" key={i}>
@@ -104,7 +113,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* CERTIFICATIONS */}
             <div className="section">
-                <div className="section-title">TRAINING</div>
+                <div className="section-title">{titles.certifications}</div>
                 <div className="section-content">
                     <ul className="certificates-list">
                         {certifications.map((cert, i) => (
@@ -122,7 +131,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* ACHIEVEMENTS */}
             <div className="section">
-                <div className="section-title">ACHIEVEMENTS</div>
+                <div className="section-title">{titles.achievements}</div>
                 <div className="section-content">
                     <ul className="achievements-list">
                         {achievements.map((ach, i) => (
@@ -134,7 +143,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
 
             {/* EDUCATION */}
             <div className="section">
-                <div className="section-title">EDUCATION</div>
+                <div className="section-title">{titles.education}</div>
                 <div className="section-content">
                     {education.map((edu, i) => (
                         <div className="education-item" key={i}>
