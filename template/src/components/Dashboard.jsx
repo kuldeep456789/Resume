@@ -1,4 +1,5 @@
 import React from 'react';
+import { Upload } from 'lucide-react';
 import './Dashboard.css';
 
 const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
@@ -7,7 +8,25 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
             <div className="dashboard-container">
                 {/* Left Side: Text & Actions */}
                 <div className="dashboard-left">
-                    <div className="workspace-label">// YOUR WORKSPACE</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '40px' }}>
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            background: 'var(--gold-accent)',
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4L4 8V16L12 20L20 16V8L12 4Z" stroke="black" strokeWidth="2.5" strokeLinejoin="round" />
+                                <path d="M12 8L8 12V14C8 14.5304 8.21071 15.0391 8.58579 15.4142C8.96086 15.7893 9.46957 16 10 16H14C14.5304 16 15.0391 15.7893 15.4142 15.4142C15.7893 15.0391 16 14.5304 16 14V12L12 8Z" fill="black" />
+                                <path d="M11 16V20L12 21L13 20V16" stroke="var(--gold-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', fontWeight: '700', letterSpacing: '2px', color: 'white' }}>RESUME <span style={{ color: 'var(--gold-accent)' }}>FIX</span></span>
+                    </div>
+                    {/* <div className="workspace-label">// YOUR WORKSPACE</div> */}
                     <h1 className="main-title">
                         Craft Your <br />
                         <span className="serif-italic-gold">Story.</span>
@@ -22,6 +41,9 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
                         </button>
                         <button className="btn-new" onClick={onNew}>
                             New Resume
+                        </button>
+                        <button className="btn-upload">
+                            <Upload size={18} /> Upload Resume
                         </button>
                     </div>
                 </div>
@@ -60,5 +82,4 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
         </div>
     );
 };
-
 export default Dashboard;

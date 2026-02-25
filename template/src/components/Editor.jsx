@@ -76,9 +76,27 @@ const Editor = ({ data, onChange, onDownload, onReset }) => {
 
             {!isCollapsed && (
                 <>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
-                        <div style={{ width: '32px', height: '32px', background: '#004AAD', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>R</div>
-                        <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: '#1a202c', letterSpacing: '-0.02em' }}>Resume Builder</h2>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                        <div style={{
+                            width: '40px',
+                            height: '40px',
+                            background: '#1a202c',
+                            borderRadius: '10px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                        }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4L4 8V16L12 20L20 16V8L12 4Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+                                <path d="M12 8L8 12V14C8 14.5304 8.21071 15.0391 8.58579 15.4142C8.96086 15.7893 9.46957 16 10 16H14C14.5304 16 15.0391 15.7893 15.4142 15.4142C15.7893 15.0391 16 14.5304 16 14V12L12 8Z" fill="white" />
+                                <path d="M11 16V20L12 21L13 20V16" stroke="#1a202c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '900', color: '#1a202c', letterSpacing: '-0.03em', textTransform: 'uppercase' }}>Resume <span style={{ color: '#004AAD' }}>Fix</span></h2>
+                            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600', letterSpacing: '0.1em', marginTop: '-2px' }}>PROFESSIONAL BUILDER</div>
+                        </div>
                     </div>
 
                     <div className="controls" style={{ marginBottom: '32px' }}>

@@ -103,6 +103,28 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.btn-upload {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px dashed #444;
+    padding: 16px 28px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-upload:hover {
+    border-color: var(--gold-accent);
+    background-color: rgba(197, 163, 99, 0.05);
+    color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
 /* Right Side */
 .dashboard-right {
     flex: 1;
