@@ -48,6 +48,7 @@ export const initialResumeState = {
             ],
             techStack: "React, TypeScript, Node.js, Express, PostgreSQL",
             date: "January 2026 – Present",
+            summary: "AgriSmart is a comprehensive farmer-centric platform designed to bridge the gap between traditional farming and modern data-driven agriculture.",
             description: [
                 "Engineered an intelligent crop recommendation system using soil and climate data, achieving 94% prediction accuracy for regional farmers.",
                 "Architected a decision-support dashboard for strategic crop selection and yield-based profit maximization.",
@@ -62,6 +63,7 @@ export const initialResumeState = {
             ],
             techStack: "YOLOv8, DeepSORT, OpenCV, TensorFlow, Flask, React, Recharts",
             date: "August 2025 – September 2025",
+            summary: "An advanced computer vision surveillance system specializing in real-time crowd dynamics and individual tracking for high-security areas.",
             description: [
                 "Architected real-time crowd detection solutions to detect, track, and count individuals in dense environments with 95% accuracy.",
                 "Pioneered robust object tracking architectures to reliably monitor dense scenes with complex occlusions and overlaps.",
@@ -76,6 +78,7 @@ export const initialResumeState = {
             ],
             techStack: "React, Flask, PostgreSQL, Socket.IO, WebRTC, TensorFlow, MediaPipe",
             date: "October 2025 – December 2025",
+            summary: "A next-generation P2P communication platform integrating real-time gesture control and sub-100ms low-latency infrastructure.",
             description: [
                 "Architected live communication platforms featuring P2P video and ML-driven gesture interactions with sub-100ms latency.",
                 "Integrated WebRTC and Socket.IO architecture to enable high-concurrency group messaging and 98% connection reliability.",

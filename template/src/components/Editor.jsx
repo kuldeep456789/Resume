@@ -287,11 +287,7 @@ const Editor = ({ data, onChange, onDownload, onReset }) => {
                                         <input value={exp.date} onChange={(e) => handleChange('experience', 'date', e.target.value, i, 'date')} style={inputStyle} placeholder="Date" />
                                         <textarea
                                             value={exp.description.join('\n')}
-                                            onChange={(e) => {
-                                                const experience = [...data.experience];
-                                                experience[i].description = e.target.value.split('\n');
-                                                handleChange('experience', 'description', experience);
-                                            }}
+                                            onChange={(e) => handleChange('experience', 'description', e.target.value.split('\n'), i, 'description')}
                                             style={textareaStyle}
                                             placeholder="Description (one per line)"
                                         />
@@ -324,9 +320,9 @@ const Editor = ({ data, onChange, onDownload, onReset }) => {
                                                         placeholder="Label"
                                                         value={link.label}
                                                         onChange={(e) => {
-                                                            const projects = [...data.projects];
-                                                            projects[i].links[lIdx].label = e.target.value;
-                                                            handleChange('projects', 'links', projects);
+                                                            const newLinks = [...proj.links];
+                                                            newLinks[lIdx] = { ...newLinks[lIdx], label: e.target.value };
+                                                            handleChange('projects', 'links', newLinks, i, 'links');
                                                         }}
                                                         style={{ ...inputStyle, marginBottom: 0, flex: 1 }}
                                                     />
@@ -334,41 +330,41 @@ const Editor = ({ data, onChange, onDownload, onReset }) => {
                                                         placeholder="URL"
                                                         value={link.url}
                                                         onChange={(e) => {
-                                                            const projects = [...data.projects];
-                                                            projects[i].links[lIdx].url = e.target.value;
-                                                            handleChange('projects', 'links', projects);
+                                                            const newLinks = [...proj.links];
+                                                            newLinks[lIdx] = { ...newLinks[lIdx], url: e.target.value };
+                                                            handleChange('projects', 'links', newLinks, i, 'links');
                                                         }}
                                                         style={{ ...inputStyle, marginBottom: 0, flex: 2 }}
                                                     />
                                                     <button onClick={() => {
-                                                        const projects = [...data.projects];
-                                                        projects[i].links.splice(lIdx, 1);
-                                                        handleChange('projects', 'links', projects);
+                                                        const newLinks = proj.links.filter((_, idx) => idx !== lIdx);
+                                                        handleChange('projects', 'links', newLinks, i, 'links');
                                                     }} style={{ ...deleteBtnStyle, marginTop: 0 }}><Trash2 size={12} /></button>
                                                 </div>
                                             ))}
                                             <button onClick={() => {
-                                                const projects = [...data.projects];
-                                                if (!projects[i].links) projects[i].links = [];
-                                                projects[i].links.push({ label: 'Link', url: '' });
-                                                handleChange('projects', 'links', projects);
+                                                const newLinks = [...(proj.links || []), { label: 'Link', url: '' }];
+                                                handleChange('projects', 'links', newLinks, i, 'links');
                                             }} style={{ ...addBtnStyle, background: '#6c757d', marginTop: '5px' }}><Plus size={12} /> Add Link</button>
                                         </div>
 
                                         <textarea
+                                            value={proj.summary || ''}
+                                            onChange={(e) => handleChange('projects', 'summary', e.target.value, i, 'summary')}
+                                            style={{ ...textareaStyle, minHeight: '60px', marginBottom: '15px' }}
+                                            placeholder="Project Summary (Paragraph)"
+                                        />
+
+                                        <textarea
                                             value={proj.description ? proj.description.join('\n') : ''}
-                                            onChange={(e) => {
-                                                const projects = [...data.projects];
-                                                projects[i].description = e.target.value.split('\n');
-                                                handleChange('projects', 'description', projects);
-                                            }}
+                                            onChange={(e) => handleChange('projects', 'description', e.target.value.split('\n'), i, 'description')}
                                             style={textareaStyle}
-                                            placeholder="Description (one per line)"
+                                            placeholder="Description Bullets (one per line)"
                                         />
                                         <button onClick={() => removeArrayItem('projects', i)} style={deleteBtnStyle}><Trash2 size={12} /> Remove Project</button>
                                     </div>
                                 ))}
-                                <button onClick={() => addArrayItem('projects', { title: 'New Project', date: '', techStack: '', description: [], links: [] })} style={addBtnStyle}><Plus size={12} /> Add Project</button>
+                                <button onClick={() => addArrayItem('projects', { title: 'New Project', date: '', techStack: '', summary: '', description: [], links: [] })} style={addBtnStyle}><Plus size={12} /> Add Project</button>
                             </div>
                         )}
                     </div>

@@ -101,6 +101,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
                                 </div>
                                 <div className="item-date">{proj.date}</div>
                             </div>
+                            {proj.summary && <p className="item-summary" style={{ fontSize: '12px', margin: '4px 0', lineHeight: '1.3', color: '#444' }}>{proj.summary}</p>}
                             <ul className="item-description">
                                 {proj.description.map((desc, d) => (
                                     <li key={d}>{desc}</li>
