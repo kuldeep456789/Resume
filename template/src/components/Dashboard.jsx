@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload } from 'lucide-react';
 import './Dashboard.css';
 
-const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
+const Dashboard = ({ onEdit, onNew, onUpload, lastSaved, data }) => {
     return (
         <div className="dashboard-wrapper">
             <div className="dashboard-container">
@@ -26,13 +26,13 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
                         </div>
                         <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.8rem', fontWeight: '700', letterSpacing: '2px', color: 'white' }}>RESUME <span style={{ color: 'var(--gold-accent)' }}>FIX</span></span>
                     </div>
-                    {/* <div className="workspace-label">// YOUR WORKSPACE</div> */}
+
                     <h1 className="main-title">
                         Craft Your <br />
                         <span className="serif-italic-gold">Story.</span>
                     </h1>
                     <p className="description">
-                        You have 1 active draft and your profile is 84% complete.
+                        You have 1 active draft and your profile is currently awaiting optimization check.
                         A few more details and you're ready to impress.
                     </p>
                     <div className="button-group">
@@ -42,7 +42,7 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
                         <button className="btn-new" onClick={onNew}>
                             New Resume
                         </button>
-                        <button className="btn-upload">
+                        <button className="btn-upload" onClick={onUpload}>
                             <Upload size={18} /> Upload Resume
                         </button>
                     </div>
@@ -54,12 +54,12 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
                         <div className="active-badge">ACTIVE</div>
                         <div className="preview-card">
                             <div className="card-line-gold"></div>
-                            <h2 className="card-name">{data.header.name}</h2>
+                            <h2 className="card-name">{data?.header?.name || 'Anonymous'}</h2>
                             <p className="card-role">SOFTWARE DEVELOPER</p>
 
                             <div className="card-section">
                                 <div className="card-section-title">PROJECTS</div>
-                                {(data.projects || []).slice(0, 2).map((proj, i) => (
+                                {(data?.projects || []).slice(0, 2).map((proj, i) => (
                                     <div key={i} className="mini-project-link">
                                         <span className="dot"></span>
                                         <a href={(proj.links && proj.links[0]?.url) || "#"} target="_blank" rel="noopener noreferrer">
@@ -71,9 +71,9 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
 
                             <div className="card-section">
                                 <div className="card-section-title">SKILLS</div>
-                                <div className="skeleton-bar gold"></div>
-                                <div className="skeleton-bar red"></div>
-                                <div className="skeleton-bar green"></div>
+                                <div className="skeleton-bar gold" style={{ width: '80%' }}></div>
+                                <div className="skeleton-bar red" style={{ width: '60%' }}></div>
+                                <div className="skeleton-bar green" style={{ width: '70%' }}></div>
                             </div>
                         </div>
                     </div>
@@ -82,4 +82,5 @@ const Dashboard = ({ onEdit, onNew, lastSaved, data }) => {
         </div>
     );
 };
+
 export default Dashboard;

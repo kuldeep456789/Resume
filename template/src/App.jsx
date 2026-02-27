@@ -4,10 +4,13 @@ import { initialResumeState } from './data';
 import Resume from './components/Resume';
 import Dashboard from './components/Dashboard';
 import Editor from './components/Editor';
+import ResumeUploadModal from './components/ResumeUploadModal';
+import { calculateATSScore } from './services/ats/atsEngine';
 import './components/Resume.css';
 
 function App() {
   const [view, setView] = useState('dashboard'); // 'dashboard' or 'editor'
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const [data, setData] = useState(() => {
     try {
@@ -32,9 +35,12 @@ function App() {
     return initialResumeState;
   });
 
+  const [atsScore, setAtsScore] = useState(() => calculateATSScore(data));
+
   React.useEffect(() => {
     localStorage.setItem('resumeData', JSON.stringify(data));
     setLastSaved(new Date().toLocaleTimeString());
+    setAtsScore(calculateATSScore(data));
   }, [data]);
 
   const resumeRef = useRef();
@@ -46,17 +52,28 @@ function App() {
 
   if (view === 'dashboard') {
     return (
-      <Dashboard
-        data={data}
-        lastSaved={lastSaved}
-        onEdit={() => setView('editor')}
-        onNew={() => {
-          if (window.confirm("Create new resume? This will overwrite your current draft.")) {
-            setData(initialResumeState);
-            setView('editor');
-          }
-        }}
-      />
+      <>
+        <Dashboard
+          data={data}
+          lastSaved={lastSaved}
+          onEdit={() => setView('editor')}
+          onUpload={() => setIsUploadOpen(true)}
+          onNew={() => {
+            if (window.confirm("Create new resume? This will overwrite your current draft.")) {
+              setData(initialResumeState);
+              setView('editor');
+            }
+          }}
+        />
+        <ResumeUploadModal
+          isOpen={isUploadOpen}
+          onClose={() => setIsUploadOpen(false)}
+          onUpload={(uploadedData) => {
+            setData(uploadedData);
+            setView('dashboard');
+          }}
+        />
+      </>
     );
   }
 
