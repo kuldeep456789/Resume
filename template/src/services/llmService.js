@@ -2,7 +2,8 @@
  * LLM Service - Frontend bridge to the secure backend server
  */
 
-const BACKEND_URL = 'http://localhost:5000/api/analyze';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BACKEND_URL = `${API_URL}/api/analyze`;
 
 const PROVIDERS = {
     GROQ: 'groq',

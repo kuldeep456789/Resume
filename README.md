@@ -39,7 +39,7 @@ You need to run **both** the server and the frontend simultaneously.
 In one terminal:
 ```bash
 cd server
-node server.js
+npm start
 ```
 *Server will run on `http://localhost:5000`*
 
