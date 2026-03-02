@@ -1,8 +1,10 @@
 import React from 'react';
 import { TrendingUp, DollarSign, Building2 } from 'lucide-react';
-import { TRENDING_SKILLS, HIRING_COMPANIES } from '../services/ats/skillDatabase';
+import { TRENDING_SKILLS, HIRING_COMPANIES, SALARY_RANGES } from '../services/ats/skillDatabase';
 
-const MarketIntelligence = () => {
+const MarketIntelligence = ({ role }) => {
+    const salaryRange = SALARY_RANGES[role] || "$70k - $150k";
+
     return (
         <div className="market-intelligence" style={{ color: 'white' }}>
             <div style={{ marginBottom: '24px' }}>
@@ -66,8 +68,8 @@ const MarketIntelligence = () => {
                     borderRadius: '12px',
                     border: '1px solid rgba(212,175,55,0.2)'
                 }}>
-                    <div style={{ fontSize: '0.8rem', opacity: 0.8, marginBottom: '4px' }}>Full Stack Developer</div>
-                    <div style={{ fontSize: '1.2rem', fontWeight: '700', color: 'var(--gold-accent)' }}>$80k - $160k / year</div>
+                    <div style={{ fontSize: '0.8rem', opacity: 0.8, marginBottom: '4px' }}>{role}</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: '700', color: 'var(--gold-accent)' }}>{salaryRange} / year</div>
                 </div>
             </div>
         </div>

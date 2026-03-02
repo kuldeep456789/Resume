@@ -6,9 +6,18 @@ import Dashboard from './components/Dashboard';
 import Editor from './components/Editor';
 import ResumeUploadModal from './components/ResumeUploadModal';
 import { calculateATSScore } from './services/ats/atsEngine';
+import ErrorBoundary from './components/ErrorBoundary';
 import './components/Resume.css';
 
 function App() {
+  return (
+    <ErrorBoundary>
+      <MainApp />
+    </ErrorBoundary>
+  );
+}
+
+function MainApp() {
   const [view, setView] = useState('dashboard'); // 'dashboard' or 'editor'
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
@@ -55,6 +64,7 @@ function App() {
       <>
         <Dashboard
           data={data}
+          atsScore={atsScore}
           lastSaved={lastSaved}
           onEdit={() => setView('editor')}
           onUpload={() => setIsUploadOpen(true)}
@@ -113,6 +123,7 @@ function App() {
       </div>
       <Editor
         data={data}
+        atsScore={atsScore}
         onChange={setData}
         onDownload={handlePrint}
         onReset={() => {

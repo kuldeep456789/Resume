@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ATSScoreCard = ({ score }) => {
+const ATSScoreCard = ({ score, role }) => {
     const getScoreColor = (val) => {
         if (val > 80) return '#22c55e'; // Green
         if (val > 50) return '#f59e0b'; // Amber
@@ -19,15 +19,7 @@ const ATSScoreCard = ({ score }) => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
                 <div>
                     <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '600' }}>ATS Optimization</h3>
-                    <div style={{
-                        fontSize: '0.75rem',
-                        color: 'var(--gold-accent)',
-                        fontFamily: "'Space Mono', monospace",
-                        marginTop: '4px',
-                        letterSpacing: '1px'
-                    }}>
-                        ROLE: {score.role || 'Identifying...'}
-                    </div>
+                    {role && <div style={{ fontSize: '0.75rem', color: 'var(--gold-accent)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Target: {role}</div>}
                 </div>
                 <div style={{
                     fontSize: '1.5rem',
@@ -69,6 +61,16 @@ const ATSScoreCard = ({ score }) => {
                     </ul>
                 </div>
             )}
+            {/* Benchmark Info */}
+            <div style={{
+                marginTop: '15px',
+                fontSize: '0.65rem',
+                color: '#94a3b8',
+                fontStyle: 'italic',
+                textAlign: 'right'
+            }}>
+                Benchmarked against: {score.benchmark || "Global Standard V1"}
+            </div>
         </div>
     );
 };

@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { X, Upload, FileJson, FileText, CheckCircle2, ChevronRight } from 'lucide-react';
+import {
+    X, Upload, FileJson, FileText, CheckCircle2, ChevronRight,
+    Code2, Layout, Server, Brain, BarChart3, Terminal, Smartphone, Palette, Briefcase,
+    TrendingUp, DollarSign, Building2
+} from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
 import ATSScoreCard from './ATSScoreCard';
 import MarketIntelligence from './MarketIntelligence';
-import { analyzeResumeWithAI } from '../services/ats/aiService';
+import { calculateATSScore, analyzeWithAI } from '../services/ats/atsEngine';
+import { getAvailableProviders } from '../services/llmService';
+import { SKILL_DATABASE, TRENDING_SKILLS, HIRING_COMPANIES, SALARY_RANGES } from '../services/ats/skillDatabase';
 
 // Set worker source for pdfjs - using the bundled worker from the package
 // This is the recommended way for Vite to handle the worker
@@ -17,14 +23,27 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
     const [tempData, setTempData] = useState(null);
     const [scanLog, setScanLog] = useState('');
     const [isLocalMode, setIsLocalMode] = useState(false);
+    const [selectedRole, setSelectedRole] = useState("Full Stack Developer");
+
+    const roleIcons = {
+        "Full Stack Developer": <Code2 size={18} />,
+        "Frontend Developer": <Layout size={18} />,
+        "Backend Developer": <Server size={18} />,
+        "AI/ML Engineer": <Brain size={18} />,
+        "Data Scientist": <BarChart3 size={18} />,
+        "DevOps Engineer": <Terminal size={18} />,
+        "Mobile Developer": <Smartphone size={18} />,
+        "UI/UX Designer": <Palette size={18} />,
+        "Product Manager": <Briefcase size={18} />
+    };
 
     const scanSteps = [
-        "Initializing AI engine...",
-        "Extracting deep text features...",
-        "Categorizing skills & techniques...",
-        "Evaluating experience impact...",
-        "Analyzing formatting compliance...",
-        "Finalizing ATS score..."
+        "Analyzing resume structure...",
+        "Scanning for keywords...",
+        "Checking contact information...",
+        "Evaluating experience metrics...",
+        "Verifying formatting...",
+        "Calculating ATS score..."
     ];
 
     if (!isOpen) return null;
@@ -37,20 +56,39 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
     };
 
     const extractTextFromPDF = async (file) => {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        let fullText = "";
+        console.log("Starting PDF extraction for:", file.name);
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            console.log(`PDF loaded: ${pdf.numPages} pages found.`);
+            let fullText = "";
 
-        for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items.map(item => item.str).join(' ');
-            fullText += pageText + "\n";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                fullText += pageText + "\n";
+                console.log(`Page ${i} extracted.`);
+            }
+            return fullText;
+        } catch (error) {
+            console.error("PDF Extraction failed:", error);
+            throw error;
         }
-        return fullText;
     };
 
     const processFile = async (file) => {
+        // SECURITY STEP: File size limit (e.g., 5MB)
+        const MAX_SIZE = 5 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+            alert("Security Alert: File is too large. Max limit is 5MB.");
+            return;
+        }
+
+        // SECURITY STEP: Filename sanitization (basic)
+        const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        console.log(`Processing sanitized file: ${safeName}`);
+
         setUploadStatus('processing');
 
         // Dynamic scan log effect
@@ -68,31 +106,50 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
             let extractedData;
             let rawText = "";
 
-            if (file.type === 'application/json' || file.name.endsWith('.json')) {
+            if (file.name.endsWith('.json') && (file.type === 'application/json' || file.type === '')) {
                 const reader = new FileReader();
-                const jsonPromise = new Promise((resolve) => {
-                    reader.onload = (e) => resolve(JSON.parse(e.target.result));
+                const jsonPromise = new Promise((resolve, reject) => {
+                    reader.onload = (e) => {
+                        try {
+                            resolve(JSON.parse(e.target.result));
+                        } catch (err) {
+                            reject(new Error("Invalid JSON structure"));
+                        }
+                    };
+                    reader.onerror = () => reject(new Error("File read error"));
                     reader.readAsText(file);
                 });
                 const jsonData = await jsonPromise;
                 extractedData = jsonData;
-                // Convert JSON to text for better AI analysis if needed, 
-                // or just pass a stringified version
                 rawText = JSON.stringify(jsonData, null, 2);
-            } else if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+            } else if (file.name.endsWith('.pdf') && (file.type === 'application/pdf' || file.type === '')) {
                 rawText = await extractTextFromPDF(file);
             } else {
-                alert("Processing for Word documents is coming soon. Please use PDF or JSON for now.");
+                alert("Security Alert: Invalid file type. Only .pdf and .json are allowed.");
                 clearInterval(logInterval);
                 setUploadStatus('idle');
                 return;
             }
 
-            // Call real Gemini AI for scoring and role detection
-            const aiResults = await analyzeResumeWithAI(rawText);
-            setAtsResults(aiResults);
-            setIsLocalMode(aiResults.isLocal || false);
-            setTempData(extractedData || aiResults);
+            // Prepare "Job Description" based on selected role
+            const roleSkills = SKILL_DATABASE[selectedRole] || [];
+            const jobDescription = `Target Role: ${selectedRole}. Required Skills: ${roleSkills.join(', ')}`;
+
+            // Decide whether to use AI or local scan
+            const availableProviders = getAvailableProviders();
+            let finalResults;
+
+            if (availableProviders.length > 0) {
+                setScanLog(`Initializing AI Analysis for ${selectedRole}...`);
+                finalResults = await analyzeWithAI(rawText || JSON.stringify(extractedData), jobDescription, availableProviders[0]);
+                setIsLocalMode(false);
+            } else {
+                finalResults = calculateATSScore(rawText || extractedData, jobDescription);
+                setIsLocalMode(true);
+            }
+
+            setAtsResults(finalResults);
+            setTempData(extractedData || finalResults);
 
             // Ensure animation finishes
             setTimeout(() => {
@@ -101,7 +158,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                 setTimeout(() => {
                     setUploadStatus('results');
                 }, 800);
-            }, 3000);
+            }, 2000);
         } catch (err) {
             clearInterval(logInterval);
             console.error("Upload error:", err);
@@ -190,7 +247,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                     <div className="animate-fade-in">
                         <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
                             <div style={{ flex: '1 1 400px' }}>
-                                <ATSScoreCard score={atsResults} />
+                                <ATSScoreCard score={atsResults} role={selectedRole} />
                                 <button
                                     onClick={() => {
                                         onUpload(tempData);
@@ -219,7 +276,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                                 </button>
                             </div>
                             <div style={{ flex: '1 1 300px' }}>
-                                <MarketIntelligence />
+                                <MarketIntelligence role={selectedRole} />
                             </div>
                         </div>
                     </div>
@@ -228,9 +285,49 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                         <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '10px', textAlign: 'center' }}>
                             Upload <span style={{ color: 'var(--gold-accent)' }}>Resume</span>
                         </h2>
-                        <p style={{ textAlign: 'center', color: '#888', marginBottom: '30px', fontSize: '0.9rem' }}>
-                            {uploadStatus === 'processing' ? 'Processing your data...' : 'Import your existing data to see your ATS score instantly.'}
+                        <p style={{ textAlign: 'center', color: '#888', marginBottom: '20px', fontSize: '0.9rem' }}>
+                            {uploadStatus === 'processing' ? 'Processing your data...' : 'Select your target role and upload your resume for a precise ATS scan.'}
                         </p>
+
+                        {/* Role Selection Grid */}
+                        {uploadStatus === 'idle' && (
+                            <div style={{ marginBottom: '30px' }}>
+                                <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                    Select Target Role
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                                    {Object.keys(SKILL_DATABASE).map(role => (
+                                        <div
+                                            key={role}
+                                            onClick={() => setSelectedRole(role)}
+                                            style={{
+                                                padding: '16px 12px',
+                                                borderRadius: '16px',
+                                                border: `1px solid ${selectedRole === role ? 'var(--gold-accent)' : 'rgba(255,255,255,0.05)'}`,
+                                                background: selectedRole === role ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.02)',
+                                                color: selectedRole === role ? 'var(--gold-accent)' : '#aaa',
+                                                fontSize: '0.8rem',
+                                                fontWeight: selectedRole === role ? '700' : '500',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                textAlign: 'center',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                boxShadow: selectedRole === role ? '0 8px 20px -8px rgba(212, 175, 55, 0.4)' : 'none',
+                                                transform: selectedRole === role ? 'translateY(-2px)' : 'none'
+                                            }}
+                                        >
+                                            <div style={{ opacity: selectedRole === role ? 1 : 0.6 }}>
+                                                {roleIcons[role]}
+                                            </div>
+                                            {role}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         <div
                             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
@@ -246,7 +343,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                                 borderRadius: '20px',
                                 padding: '40px 20px',
                                 textAlign: 'center',
-                                background: isDragging ? 'rgba(212, 175, 55, 0.05)' : 'rgba(255, 255, 255, 0.02)',
+                                background: isDragging ? 'rgba(212, 175, 55, 0.05)' : 'rgba(255,255,255,0.02)',
                                 transition: 'all 0.2s ease',
                                 cursor: uploadStatus === 'idle' ? 'pointer' : 'default'
                             }}
@@ -264,6 +361,9 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                                 <div style={{ color: '#22c55e' }}>
                                     <CheckCircle2 size={48} style={{ marginBottom: '15px' }} />
                                     <div style={{ fontWeight: '700' }}>Analysis Complete!</div>
+                                    <div style={{ fontSize: '0.65rem', color: '#888', marginTop: '5px' }}>
+                                        {atsResults?.benchmark || "Calibrated"}
+                                    </div>
                                 </div>
                             ) : uploadStatus === 'processing' ? (
                                 <div style={{ position: 'relative', height: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -279,14 +379,14 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                                     <div style={{
                                         fontFamily: "'Space Mono', monospace",
                                         fontSize: '0.75rem',
-                                        color: isLocalMode ? '#f59e0b' : 'var(--gold-accent)',
+                                        color: 'var(--gold-accent)',
                                         background: 'rgba(0,0,0,0.3)',
                                         padding: '4px 12px',
                                         borderRadius: '4px',
-                                        border: `1px solid ${isLocalMode ? 'rgba(245, 158, 11, 0.2)' : 'rgba(197, 163, 99, 0.2)'}`,
+                                        border: '1px solid rgba(197, 163, 99, 0.2)',
                                         textAlign: 'center'
                                     }}>
-                                        {isLocalMode ? "[BACKUP MODE] Local Scan" : "[AI MODE] Gemini Analyze"}
+                                        [{isLocalMode ? 'LOCAL SCAN' : 'AI SCAN'}] Analyzing...
                                         <div style={{ fontSize: '0.65rem', opacity: 0.7, marginTop: '4px' }}>{scanLog}</div>
                                     </div>
                                 </div>
@@ -303,44 +403,6 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                             )}
                         </div>
 
-                        <div style={{ marginTop: '30px' }}>
-                            <div style={{ fontSize: '0.8rem', fontWeight: '700', color: '#888', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                                Optimization Template
-                            </div>
-                            <div style={{
-                                background: 'rgba(212, 175, 55, 0.05)',
-                                borderRadius: '16px',
-                                padding: '15px',
-                                border: '1px solid rgba(212, 175, 55, 0.2)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '15px'
-                            }}>
-                                <div style={{
-                                    width: '40px',
-                                    height: '50px',
-                                    background: '#fff',
-                                    borderRadius: '4px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '3px',
-                                    padding: '5px',
-                                    opacity: 0.8
-                                }}>
-                                    <div style={{ height: '3px', width: '70%', background: '#eee' }}></div>
-                                    <div style={{ height: '3px', width: '100%', background: '#eee' }}></div>
-                                    <div style={{ height: '3px', width: '80%', background: '#eee' }}></div>
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--gold-accent)' }}>ATS Master v2.1</div>
-                                    <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Optimized for Google, Amazon, and Stripe</div>
-                                </div>
-                                <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '0.9rem', fontWeight: '900', color: '#22c55e' }}>98%</div>
-                                    <div style={{ fontSize: '0.6rem', opacity: 0.5 }}>Trust Score</div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div style={{ marginTop: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                             <div style={{
@@ -365,7 +427,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
                                 gap: '12px'
                             }}>
                                 <FileText size={20} style={{ color: '#ec4899' }} />
-                                <div style={{ fontSize: '0.8rem' }}>PDF / Word <br /><span style={{ fontSize: '10px' }}>(AI Scanning)</span></div>
+                                <div style={{ fontSize: '0.8rem' }}>PDF / Word <br /><span style={{ fontSize: '10px' }}>(Local NLP)</span></div>
                             </div>
                         </div>
 

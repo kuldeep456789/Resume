@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Type, Palette, Save, Download, Plus, Trash2, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
+import { Type, Palette, Save, Download, Plus, Trash2, ChevronDown, ChevronUp, RotateCcw, Target, ShieldCheck, Zap } from 'lucide-react';
+import ATSScoreCard from './ATSScoreCard';
 
-const Editor = ({ data, onChange, onDownload, onReset }) => {
+const Editor = ({ data, atsScore, onChange, onDownload, onReset }) => {
     const [activeSection, setActiveSection] = useState('header');
 
     const handleChange = (section, field, value, index = null, subField = null) => {
@@ -141,6 +142,50 @@ const Editor = ({ data, onChange, onDownload, onReset }) => {
 
                         <div style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', fontStyle: 'italic', background: '#f8fafc', padding: '8px', borderRadius: '8px' }}>
                             ✨ Draft auto-saved locally
+                        </div>
+
+                        {/* Real-time ATS Hub */}
+                        <div style={{
+                            background: '#f8fafc',
+                            borderRadius: '16px',
+                            padding: '16px',
+                            border: '1px solid #f1f5f9',
+                            marginBottom: '24px'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <Target size={18} style={{ color: '#004AAD' }} />
+                                <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Optimization Hub</h3>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px' }}>
+                                <div style={{ background: 'white', padding: '12px', borderRadius: '12px', border: '1px solid #f1f5f9', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: '900', color: atsScore.overall > 70 ? '#22c55e' : '#f59e0b' }}>{atsScore.overall}%</div>
+                                    <div style={{ fontSize: '9px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>ATS Match</div>
+                                </div>
+                                <div style={{ background: 'white', padding: '12px', borderRadius: '12px', border: '1px solid #f1f5f9', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: '900', color: '#6366f1' }}>{atsScore.sections?.skills || 0}%</div>
+                                    <div style={{ fontSize: '9px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>Keywords</div>
+                                </div>
+                            </div>
+
+                            {atsScore.feedback?.length > 0 && (
+                                <div style={{ background: 'rgba(212, 175, 55, 0.05)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                                        <Zap size={14} style={{ color: 'var(--gold-accent)' }} />
+                                        <span style={{ fontSize: '0.8rem', fontWeight: '800', color: '#b45309', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Optimization Roadmap</span>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                        {atsScore.feedback.slice(0, 3).map((tip, i) => (
+                                            <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                                                <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--gold-accent)', marginTop: '6px' }}></div>
+                                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#92400e', lineHeight: '1.5', fontWeight: '500' }}>
+                                                    {tip}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

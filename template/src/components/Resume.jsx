@@ -4,6 +4,17 @@ import './Resume.css';
 const Resume = React.forwardRef(({ data }, ref) => {
     const { header, skills, experience, projects, certifications, achievements, education, settings, sectionTitles } = data;
 
+    // SECURITY: URL Sanitization to prevent javascript: XSS
+    const sanitizeUrl = (url) => {
+        if (!url) return "#";
+        const trimmed = url.trim().toLowerCase();
+        if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:') || trimmed.startsWith('vbscript:')) {
+            console.warn("Blocked potentially dangerous URL:", url);
+            return "#";
+        }
+        return url;
+    };
+
     const style = {
         '--theme-color': settings.themeColor,
         '--font-family': settings.fontFamily,
@@ -28,7 +39,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
                         {header.links.slice(0, 2).map((link, i) => (
                             <div key={i}>
                                 {link.type && `${link.type}: `}
-                                <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                                <a href={sanitizeUrl(link.url)} target="_blank" rel="noopener noreferrer">{link.label}</a>
                             </div>
                         ))}
                     </div>
@@ -36,7 +47,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
                         {header.links.slice(2).map((link, i) => (
                             <div key={i}>
                                 {link.type && `${link.type}: `}
-                                <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                                <a href={sanitizeUrl(link.url)} target="_blank" rel="noopener noreferrer">{link.label}</a>
                             </div>
                         ))}
                     </div>
@@ -119,7 +130,7 @@ const Resume = React.forwardRef(({ data }, ref) => {
                     <ul className="certificates-list">
                         {certifications.map((cert, i) => (
                             <li key={i}>
-                                <a href={cert.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <a href={sanitizeUrl(cert.link)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
                                     <strong>{cert.name}</strong>
                                 </a>
                                 {' | '}{cert.provider}

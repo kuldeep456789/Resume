@@ -14,6 +14,21 @@ export const SKILL_DATABASE = {
     ],
     "AI/ML Engineer": [
         "Python", "TensorFlow", "PyTorch", "Scikit-Learn", "Pandas", "NumPy", "LLMs", "NLP", "Computer Vision", "OpenCV", "Keras"
+    ],
+    "Data Scientist": [
+        "Python", "R", "SQL", "Statistics", "Machine Learning", "Data Visualization", "Tableau", "Power BI", "Pandas", "Scikit-Learn", "Matplotlib"
+    ],
+    "DevOps Engineer": [
+        "Docker", "Kubernetes", "AWS", "Azure", "Terraform", "Jenkins", "CI/CD", "Linux", "Shell Scripting", "Monitoring", "Prometheus", "Ansible"
+    ],
+    "Mobile Developer": [
+        "React Native", "Flutter", "Swift", "Kotlin", "Java", "iOS", "Android", "Mobile UI", "Firebase", "App Store Deployment"
+    ],
+    "UI/UX Designer": [
+        "Figma", "Adobe XD", "Sketch", "Prototyping", "User Research", "Wireframing", "Visual Design", "Typography", "Color Theory"
+    ],
+    "Product Manager": [
+        "Product Roadmap", "Agile", "Scrum", "User Stories", "Market Research", "Stakeholder Management", "Product Analytics", "Jira"
     ]
 };
 
@@ -34,8 +49,13 @@ export const HIRING_COMPANIES = [
 ];
 
 export const SALARY_RANGES = {
-    "Full Stack": "$80k - $160k",
-    "Frontend": "$70k - $140k",
-    "Backend": "$85k - $170k",
-    "AI/ML": "$100k - $200k"
+    "Full Stack Developer": "$80k - $160k",
+    "Frontend Developer": "$70k - $140k",
+    "Backend Developer": "$85k - $170k",
+    "AI/ML Engineer": "$100k - $200k",
+    "Data Scientist": "$90k - $180k",
+    "DevOps Engineer": "$95k - $185k",
+    "Mobile Developer": "$80k - $155k",
+    "UI/UX Designer": "$65k - $130k",
+    "Product Manager": "$90k - $175k"
 };

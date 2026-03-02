@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload } from 'lucide-react';
 import './Dashboard.css';
 
-const Dashboard = ({ onEdit, onNew, onUpload, lastSaved, data }) => {
+const Dashboard = ({ onEdit, onNew, onUpload, lastSaved, data, atsScore }) => {
     return (
         <div className="dashboard-wrapper">
             <div className="dashboard-container">
@@ -54,6 +54,36 @@ const Dashboard = ({ onEdit, onNew, onUpload, lastSaved, data }) => {
                         <div className="active-badge">ACTIVE</div>
                         <div className="preview-card">
                             <div className="card-line-gold"></div>
+
+                            {/* ATS Score Badge */}
+                            <div style={{
+                                position: 'absolute',
+                                top: '15px',
+                                right: '15px',
+                                background: 'white',
+                                padding: '6px 12px',
+                                borderRadius: '100px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                                border: '1px solid #f1f5f9',
+                                zIndex: 10
+                            }}>
+                                <div style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%',
+                                    background: atsScore.overall > 70 ? '#22c55e' : atsScore.overall > 50 ? '#f59e0b' : '#ef4444'
+                                }}></div>
+                                <span style={{
+                                    fontSize: '0.75rem',
+                                    fontWeight: '800',
+                                    color: '#1a202c',
+                                    letterSpacing: '0.5px'
+                                }}>{atsScore.overall}/100</span>
+                            </div>
+
                             <h2 className="card-name">{data?.header?.name || 'Anonymous'}</h2>
                             <p className="card-role">SOFTWARE DEVELOPER</p>
 
