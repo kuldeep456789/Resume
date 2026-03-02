@@ -8,7 +8,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
+app.use(cors({
+    origin: FRONTEND_URL,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '50mb' }));
 
 // Health Check

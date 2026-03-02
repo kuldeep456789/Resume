@@ -19,7 +19,8 @@ npm install
   ```env
   GROQ_API_KEY=your_key_here
   OPENROUTER_API_KEY=your_key_here
-  # ... other providers
+  # Optional: For production security
+  FRONTEND_URL=http://localhost:8000
   ```
 
 ### 3. Frontend Setup (UI & Analyzer)
@@ -31,9 +32,9 @@ npm install
 
 ---
 
-## 🛠️ Running the Project
+## 🛠️ Running the Project (Localhost)
 
-You need to run **both** the server and the frontend simultaneously.
+You need to run **both** terminals simultaneously.
 
 ### Step 1: Start the Backend Server
 In one terminal:
@@ -50,6 +51,30 @@ cd template
 npm run dev
 ```
 *Frontend will run on `http://localhost:8000`*
+
+---
+
+## 🌐 Deployment Guide (Live Server)
+
+To deploy this project to a live server (e.g., Render, Vercel, AWS), follow these steps:
+
+### Phase 1: Deploy the Backend (Server)
+1.  Upload the `server/` folder to your backend host.
+2.  Set the following **Environment Variables** in your host's dashboard:
+    *   `PORT=5000` (or whatever your host provides)
+    *   `HOST=0.0.0.0`
+    *   `FRONTEND_URL=https://your-main-app.com` (Your deployed frontend address)
+    *   `GROQ_API_KEY`, `OPENROUTER_API_KEY`, etc.
+3.  Run `npm install` and `npm start`.
+
+### Phase 2: Deploy the Frontend (Template)
+1.  **Important**: Identify your backend's public URL (e.g., `https://your-api-service.onrender.com`).
+2.  In the `template/` directory, set the following environment variable **before building**:
+    ```env
+    VITE_API_URL=https://your-api-service.onrender.com
+    ```
+3.  Run `npm run build`. This "bakes" the public URL into the code.
+4.  Upload the `dist/` folder to your static hosting provider (Vercel, Netlify).
 
 ---
 
