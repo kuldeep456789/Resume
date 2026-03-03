@@ -21,7 +21,7 @@ const getAvailableProviders = () => {
     return providers;
 };
 
-const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = PROVIDERS.GROQ) => {
+const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = PROVIDERS.GROQ, location = "") => {
     const prompt = `
         Analyze the following resume text against the job description (if provided).
         Provide a detailed ATS score analysis in JSON format with the following structure:
@@ -34,7 +34,13 @@ const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = P
                 "headers": number (0-100)
             },
             "feedback": [string],
-            "benchmark": string
+            "benchmark": string,
+            "locationAnalysis": {
+                "currentLocation": "${location || 'Not Provided'}",
+                "hiringHubs": [string],
+                "topCompanies": [string],
+                "marketDemand": "High" | "Medium" | "Low"
+            }
         }
 
         Resume Text:
@@ -42,6 +48,8 @@ const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = P
 
         Job Description:
         ${jobDescription || "Standard Industry Benchmarks"}
+
+        Constraint: If the user's location is provided, suggest companies and hubs specifically for that city/region.
     `;
 
     try {

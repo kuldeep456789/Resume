@@ -21,7 +21,7 @@ export const getAvailableProviders = () => {
     return [PROVIDERS.GROQ, PROVIDERS.OPENROUTER, PROVIDERS.MISTRAL, PROVIDERS.DEEPSEEK, PROVIDERS.CEREBRAS];
 };
 
-export const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = PROVIDERS.GROQ) => {
+export const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = PROVIDERS.GROQ, location = "") => {
     try {
         const response = await fetch(BACKEND_URL, {
             method: 'POST',
@@ -31,7 +31,8 @@ export const analyzeResumeWithAI = async (resumeText, jobDescription = "", provi
             body: JSON.stringify({
                 resumeText,
                 jobDescription,
-                provider
+                provider,
+                location
             })
         });
 

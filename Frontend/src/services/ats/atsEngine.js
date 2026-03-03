@@ -175,7 +175,7 @@ export const calculateATSScore = (resumeDataOrText, jobDescription = "") => {
     return score;
 };
 
-export const analyzeWithAI = async (resumeText, jobDescription = "", provider) => {
+export const analyzeWithAI = async (resumeText, jobDescription = "", provider, location = "") => {
     const availableProviders = getAvailableProviders();
     const selectedProvider = provider || availableProviders[0];
 
@@ -184,7 +184,7 @@ export const analyzeWithAI = async (resumeText, jobDescription = "", provider) =
     }
 
     try {
-        const aiResult = await analyzeResumeWithAI(resumeText, jobDescription, selectedProvider);
+        const aiResult = await analyzeResumeWithAI(resumeText, jobDescription, selectedProvider, location);
         return {
             ...aiResult,
             benchmark: `AI Powered (${selectedProvider.toUpperCase()})`

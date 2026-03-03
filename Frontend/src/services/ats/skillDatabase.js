@@ -42,11 +42,33 @@ export const TRENDING_SKILLS = [
 ];
 
 export const HIRING_COMPANIES = [
-    { name: "Google", logo: "https://www.google.com/favicon.ico", roles: 12 },
-    { name: "Amazon", logo: "https://www.amazon.com/favicon.ico", roles: 8 },
-    { name: "Stripe", logo: "https://www.stripe.com/favicon.ico", roles: 5 },
-    { name: "Microsoft", logo: "https://www.microsoft.com/favicon.ico", roles: 15 }
+    { name: "Google", logo: "https://www.google.com/favicon.ico", roles: 145, locations: ["Mountain View", "Bangalore", "London", "Zurich"] },
+    { name: "Amazon", logo: "https://www.amazon.com/favicon.ico", roles: 230, locations: ["Seattle", "Hyderabad", "Berlin", "Dublin"] },
+    { name: "Microsoft", logo: "https://www.microsoft.com/favicon.ico", roles: 180, locations: ["Redmond", "Bangalore", "Vancouver", "Prague"] },
+    { name: "Stripe", logo: "https://www.stripe.com/favicon.ico", roles: 42, locations: ["San Francisco", "Dublin", "Singapore", "Bangalore"] },
+    { name: "Meta", logo: "https://www.facebook.com/favicon.ico", roles: 85, locations: ["Menlo Park", "London", "Singapore", "Tel Aviv"] },
+    { name: "Uber", logo: "https://www.uber.com/favicon.ico", roles: 64, locations: ["San Francisco", "Bangalore", "Amsterdam", "Hyderabad"] },
+    { name: "Zomato", logo: "https://www.zomato.com/favicon.ico", roles: 28, locations: ["Gurugram", "Bangalore", "Mumbai"] },
+    { name: "Canva", logo: "https://www.canva.com/favicon.ico", roles: 35, locations: ["Sydney", "Melbourne", "London", "Austin"] }
 ];
+
+export const LOCATION_MAPPING = {
+    "India": {
+        "Bangalore": ["Google", "Microsoft", "Uber", "Stripe", "Zomato"],
+        "Hyderabad": ["Amazon", "Microsoft", "Uber", "Oracle"],
+        "Gurugram": ["Zomato", "Google", "MakeMyTrip"],
+        "Mumbai": ["TCS", "JPMC", "Zomato"]
+    },
+    "USA": {
+        "San Francisco": ["Stripe", "Uber", "Meta", "OpenAI"],
+        "Seattle": ["Amazon", "Microsoft", "Starbucks"],
+        "New York": ["Bloomberg", "JPMC", "Google"]
+    },
+    "Europe": {
+        "London": ["Google", "Meta", "DeepMind", "Revolut"],
+        "Berlin": ["Amazon", "Zalando", "HelloFresh"]
+    }
+};
 
 export const SALARY_RANGES = {
     "Full Stack Developer": "$80k - $160k",

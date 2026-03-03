@@ -24,6 +24,24 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
     const [scanLog, setScanLog] = useState('');
     const [isLocalMode, setIsLocalMode] = useState(false);
     const [selectedRole, setSelectedRole] = useState("Full Stack Developer");
+    const [userLocation, setUserLocation] = useState("");
+
+    React.useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
+                        const data = await response.json();
+                        const city = data.address.city || data.address.town || data.address.village || "";
+                        setUserLocation(city);
+                    } catch (error) {
+                        console.error("Modal location detection failed:", error);
+                    }
+                }
+            );
+        }
+    }, []);
 
     const roleIcons = {
         "Full Stack Developer": <Code2 size={18} />,
@@ -141,7 +159,7 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
 
             if (availableProviders.length > 0) {
                 setScanLog(`Initializing AI Analysis for ${selectedRole}...`);
-                finalResults = await analyzeWithAI(rawText || JSON.stringify(extractedData), jobDescription, availableProviders[0]);
+                finalResults = await analyzeWithAI(rawText || JSON.stringify(extractedData), jobDescription, availableProviders[0], userLocation);
                 setIsLocalMode(false);
             } else {
                 finalResults = calculateATSScore(rawText || extractedData, jobDescription);

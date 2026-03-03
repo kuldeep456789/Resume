@@ -24,13 +24,13 @@ app.get('/health', (req, res) => {
 // AI Analysis Endpoint
 app.post('/api/analyze', async (req, res) => {
     try {
-        const { resumeText, jobDescription, provider } = req.body;
+        const { resumeText, jobDescription, provider, location } = req.body;
 
         if (!resumeText) {
             return res.status(400).json({ error: "Resume text is required" });
         }
 
-        const result = await analyzeResumeWithAI(resumeText, jobDescription, provider);
+        const result = await analyzeResumeWithAI(resumeText, jobDescription, provider, location);
         res.json(result);
     } catch (error) {
         console.error("Backend Error:", error);
