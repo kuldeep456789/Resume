@@ -16,6 +16,12 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '50mb' }));
 
+// Set Permissions Policy for Geolocation
+app.use((req, res, next) => {
+    res.setHeader("Permissions-Policy", "geolocation=*");
+    next();
+});
+
 // Health Check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', providers: getAvailableProviders() });

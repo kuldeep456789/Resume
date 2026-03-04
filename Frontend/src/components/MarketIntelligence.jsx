@@ -8,43 +8,67 @@ const MarketIntelligence = ({ role }) => {
     const [detectedCity, setDetectedCity] = useState('');
 
     useEffect(() => {
+        // Use a safe check to see if we're allowed to use geolocation
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    try {
-                        // Using a free reverse geocoding API or a mock for this demo
-                        // In a real app, you'd use a service like Google Maps or OpenStreetMap
-                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
-                        const data = await response.json();
-                        const city = data.address.city || data.address.town || data.address.village || 'Bangalore';
-                        setDetectedCity(city);
-                        setUserLocation(city);
-                    } catch (error) {
-                        console.error("Location detection failed:", error);
-                        setDetectedCity('Bangalore'); // Default to a tech hub
-                    }
-                },
-                () => {
-                    setDetectedCity('Bangalore'); // Fallback
-                }
-            );
+            try {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        try {
+                            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
+                            const data = await response.json();
+                            const city = data.address.city || data.address.town || data.address.village || 'Bangalore';
+                            setDetectedCity(city);
+                            setUserLocation(city);
+                        } catch (error) {
+                            console.warn("Reverse geocoding failed, using fallback.");
+                            setDetectedCity('Bangalore');
+                        }
+                    },
+                    (error) => {
+                        // Silent fallback - users shouldn't see developer warnings for denied permissions
+                        setDetectedCity('Bangalore');
+                    },
+                    { timeout: 5000 } // Set a timeout to prevent hanging
+                );
+            } catch (err) {
+                setDetectedCity('Bangalore');
+            }
+        } else {
+            setDetectedCity('Bangalore');
         }
     }, []);
 
     const salaryRange = SALARY_RANGES[role] || "$70k - $150k";
 
     const getHiringCompanies = () => {
-        if (viewMode === 'global' || !detectedCity) return HIRING_COMPANIES.slice(0, 4);
+        if (viewMode === 'global' || !detectedCity) {
+            return {
+                Premium: HIRING_COMPANIES.filter(c => c.tier === 'Premium').slice(0, 2),
+                'High Growth': HIRING_COMPANIES.filter(c => c.tier === 'High Growth').slice(0, 2),
+                Established: HIRING_COMPANIES.filter(c => c.tier === 'Established').slice(0, 2)
+            };
+        }
 
-        // Filter companies that have offices in the detected city
         const localCompanies = HIRING_COMPANIES.filter(c =>
             c.locations.some(loc => loc.toLowerCase().includes(detectedCity.toLowerCase()))
         );
 
-        return localCompanies.length > 0 ? localCompanies : HIRING_COMPANIES.slice(0, 4);
+        if (localCompanies.length === 0) {
+            return {
+                Premium: HIRING_COMPANIES.filter(c => c.tier === 'Premium').slice(0, 2),
+                'High Growth': HIRING_COMPANIES.filter(c => c.tier === 'High Growth').slice(0, 2),
+                Established: HIRING_COMPANIES.filter(c => c.tier === 'Established').slice(0, 2)
+            };
+        }
+
+        return {
+            Premium: localCompanies.filter(c => c.tier === 'Premium'),
+            'High Growth': localCompanies.filter(c => c.tier === 'High Growth'),
+            Established: localCompanies.filter(c => c.tier === 'Established')
+        };
     };
 
-    const displayCompanies = getHiringCompanies();
+    const tieredCompanies = getHiringCompanies();
 
     return (
         <div className="market-intelligence" style={{ color: 'white' }}>
@@ -123,32 +147,38 @@ const MarketIntelligence = ({ role }) => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                     <Building2 size={18} className="text-gold" />
                     <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '600' }}>
-                        {viewMode === 'local' ? `Top Companies in ${detectedCity}` : 'Global Hiring Leaders'}
+                        {viewMode === 'local' ? `Companies in ${detectedCity}` : 'Top Hiring Leaders'}
                     </h3>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
-                    {displayCompanies.map(company => (
-                        <div key={company.name} style={{
-                            padding: '12px',
-                            background: 'rgba(255,255,255,0.05)',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            transition: 'transform 0.2s ease'
-                        }}
-                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                        >
-                            <img src={company.logo} alt={company.name} style={{ width: '24px', height: '24px', borderRadius: '4px' }} />
-                            <div style={{ overflow: 'hidden' }}>
-                                <div style={{ fontSize: '0.85rem', fontWeight: '600', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>{company.name}</div>
-                                <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>{company.roles}+ Roles</div>
-                            </div>
+
+                {Object.entries(tieredCompanies).map(([tier, companies]) => companies.length > 0 && (
+                    <div key={tier} style={{ marginBottom: '16px' }}>
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.5, letterSpacing: '1px', marginBottom: '8px' }}>{tier}</div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                            {companies.map(company => (
+                                <div key={company.name} style={{
+                                    padding: '10px',
+                                    background: 'rgba(255,255,255,0.04)',
+                                    borderRadius: '10px',
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    transition: 'transform 0.2s ease'
+                                }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                                >
+                                    <img src={company.logo} alt={company.name} style={{ width: '20px', height: '20px', borderRadius: '4px' }} />
+                                    <div style={{ overflow: 'hidden' }}>
+                                        <div style={{ fontSize: '0.8rem', fontWeight: '600', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>{company.name}</div>
+                                        <div style={{ fontSize: '0.65rem', opacity: 0.6 }}>{company.roles}+ Openings</div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
 
             <div>

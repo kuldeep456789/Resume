@@ -1,5 +1,4 @@
 const http = require('http');
-
 function test(options, label) {
     return new Promise((resolve) => {
         console.log(`Testing ${label}...`);
@@ -15,7 +14,6 @@ function test(options, label) {
         req.end();
     });
 }
-
 async function run() {
     // Test Health
     await test({
@@ -38,5 +36,4 @@ async function run() {
         }
     }, 'CORS Preflight');
 }
-
 run();

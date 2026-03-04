@@ -38,7 +38,11 @@ const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = P
             "locationAnalysis": {
                 "currentLocation": "${location || 'Not Provided'}",
                 "hiringHubs": [string],
-                "topCompanies": [string],
+                "topCompanies": {
+                    "premium": [string],
+                    "highGrowth": [string],
+                    "established": [string]
+                },
                 "marketDemand": "High" | "Medium" | "Low"
             }
         }
@@ -49,7 +53,11 @@ const analyzeResumeWithAI = async (resumeText, jobDescription = "", provider = P
         Job Description:
         ${jobDescription || "Standard Industry Benchmarks"}
 
-        Constraint: If the user's location is provided, suggest companies and hubs specifically for that city/region.
+        Constraint: If the user's location is provided, suggest companies and hubs specifically for that city/region. 
+        Categorize the companies into three tiers:
+        - Premium: MAANG and top-tier global tech giants.
+        - High Growth: Fast-scaling startups and unicorns.
+        - Established: Reliable mid-to-large scale companies with steady hiring.
     `;
 
     try {

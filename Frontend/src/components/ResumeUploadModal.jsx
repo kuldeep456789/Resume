@@ -28,18 +28,25 @@ const ResumeUploadModal = ({ isOpen, onClose, onUpload }) => {
 
     React.useEffect(() => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    try {
-                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
-                        const data = await response.json();
-                        const city = data.address.city || data.address.town || data.address.village || "";
-                        setUserLocation(city);
-                    } catch (error) {
-                        console.error("Modal location detection failed:", error);
+            try {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        try {
+                            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
+                            const data = await response.json();
+                            const city = data.address.city || data.address.town || data.address.village || "";
+                            setUserLocation(city);
+                        } catch (error) {
+                            console.warn("Modal reverse geocoding failed.");
+                        }
+                    },
+                    (error) => {
+                        // Silent fallback
                     }
-                }
-            );
+                );
+            } catch (err) {
+                // Silent fallback
+            }
         }
     }, []);
 
