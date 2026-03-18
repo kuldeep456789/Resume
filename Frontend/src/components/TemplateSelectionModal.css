@@ -1,0 +1,229 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.template-modal-content {
+    background: white;
+    width: 900px;
+    max-width: 90%;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    animation: modalSlideUp 0.3s ease-out forwards;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.template-modal-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.template-modal-header h2 {
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.template-modal-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.template-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: #f1f5f9;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.template-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.template-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.template-option {
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    background: #f8fafc;
+}
+
+.template-option:hover {
+    border-color: var(--theme-color, #004AAD);
+    background: white;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 74, 173, 0.1);
+}
+
+.template-option h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.template-option p {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* Thumnails for visual preview */
+.template-thumbnail {
+    width: 100%;
+    height: 180px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Standard Thumbnail */
+.standard-thumb .thumb-header {
+    height: 15px;
+    background: #e2e8f0;
+    width: 60%;
+    margin-bottom: 10px;
+    border-radius: 2px;
+}
+
+.standard-thumb .thumb-line {
+    height: 6px;
+    background: #f1f5f9;
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}
+
+.standard-thumb .thumb-line.short {
+    width: 40%;
+    margin-bottom: 15px;
+}
+
+.standard-thumb .thumb-section {
+    height: 8px;
+    border-bottom: 2px solid #cbd5e1;
+    width: 30%;
+    margin-bottom: 10px;
+}
+
+/* Modern Thumbnail */
+.modern-thumb {
+    padding: 0;
+    overflow: hidden;
+}
+
+.modern-thumb .thumb-header-solid {
+    height: 40px;
+    background: #3b82f6;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.modern-thumb .thumb-body-split {
+    padding: 0 15px;
+}
+
+.modern-thumb .thumb-section-border {
+    height: 10px;
+    border-left: 3px solid #3b82f6;
+    background: #f1f5f9;
+    width: 40%;
+    margin-bottom: 10px;
+}
+
+.modern-thumb .thumb-line {
+    height: 6px;
+    background: #e2e8f0;
+    width: 90%;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    border-radius: 2px;
+}
+
+/* Minimalist Thumbnail */
+.minimalist-thumb {
+    align-items: center;
+}
+
+.minimalist-thumb .thumb-header-center {
+    height: 12px;
+    background: #475569;
+    width: 40%;
+    margin-bottom: 8px;
+    border-radius: 2px;
+}
+
+.minimalist-thumb .thumb-line.center {
+    height: 4px;
+    background: #94a3b8;
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.minimalist-thumb .thumb-body {
+    width: 100%;
+}
+
+.minimalist-thumb .thumb-line.bold {
+    height: 8px;
+    background: #334155;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.minimalist-thumb .thumb-line.border-bottom {
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    background: transparent;
+    height: 10px;
+}

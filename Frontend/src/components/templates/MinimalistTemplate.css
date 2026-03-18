@@ -1,0 +1,109 @@
+.minimalist-resume {
+    color: #222;
+    padding: 25px 50px;
+}
+
+.minimalist-header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.minimalist-header h1 {
+    font-size: 24pt;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.minimalist-contact-info {
+    font-size: 10pt;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.minimalist-contact-info a {
+    color: #444;
+    text-decoration: none;
+}
+
+.minimalist-contact-info a:hover {
+    text-decoration: underline;
+}
+
+.minimalist-separator {
+    color: #ccc;
+    margin: 0 4px;
+}
+
+.minimalist-section {
+    margin-bottom: 18px;
+}
+
+.minimalist-section-title {
+    font-size: 11pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    color: #111;
+    border-bottom: 1px solid #111;
+    padding-bottom: 4px;
+}
+
+.minimalist-item {
+    margin-bottom: 12px;
+}
+
+.minimalist-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+    font-size: 11pt;
+}
+
+.minimalist-item-row i {
+    color: #555;
+}
+
+.minimalist-summary {
+    font-size: 10.5pt;
+    margin: 4px 0;
+    line-height: 1.4;
+    color: #444;
+}
+
+.minimalist-list {
+    list-style-type: none;
+    margin-top: 4px;
+}
+
+.minimalist-list li {
+    font-size: 10.5pt;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.minimalist-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #666;
+}
+
+.minimalist-skill-list {
+    list-style: none;
+}
+
+.minimalist-skill-list li {
+    font-size: 11pt;
+    margin-bottom: 4px;
+}

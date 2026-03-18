@@ -196,6 +196,16 @@ const Editor = ({ data, atsScore, onChange, onDownload, onReset }) => {
                         </h3>
                         {activeSection === 'settings' && (
                             <div className="fields">
+                                <label>Template</label>
+                                <select
+                                    value={data.settings.template || 'standard'}
+                                    onChange={(e) => handleChange('settings', 'template', e.target.value)}
+                                    style={inputStyle}
+                                >
+                                    <option value="standard">Standard</option>
+                                    <option value="modern">Modern</option>
+                                    <option value="minimalist">Minimalist</option>
+                                </select>
                                 <label>Theme Color</label>
                                 <input
                                     type="color"
@@ -213,6 +223,7 @@ const Editor = ({ data, atsScore, onChange, onDownload, onReset }) => {
                                     <option value="Arial, sans-serif">Arial</option>
                                     <option value="'Times New Roman', Times, serif">Times New Roman</option>
                                 </select>
+
 
                                 <hr style={{ margin: '15px 0', border: 'none', borderTop: '1px solid #ddd' }} />
                                 <label style={{ fontWeight: 'bold', fontSize: '12px' }}>Section Titles</label>

@@ -5,6 +5,7 @@ import Resume from './components/Resume';
 import Dashboard from './components/Dashboard';
 import Editor from './components/Editor';
 import ResumeUploadModal from './components/ResumeUploadModal';
+import TemplateSelectionModal from './components/TemplateSelectionModal';
 import { calculateATSScore } from './services/ats/atsEngine';
 import ErrorBoundary from './components/ErrorBoundary';
 import './components/Resume.css';
@@ -20,6 +21,7 @@ function App() {
 function MainApp() {
   const [view, setView] = useState('dashboard'); // 'dashboard' or 'editor'
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const [data, setData] = useState(() => {
     try {
@@ -70,8 +72,7 @@ function MainApp() {
           onUpload={() => setIsUploadOpen(true)}
           onNew={() => {
             if (window.confirm("Create new resume? This will overwrite your current draft.")) {
-              setData(initialResumeState);
-              setView('editor');
+              setIsTemplateModalOpen(true);
             }
           }}
         />
@@ -81,6 +82,21 @@ function MainApp() {
           onUpload={(uploadedData) => {
             setData(uploadedData);
             setView('dashboard');
+          }}
+        />
+        <TemplateSelectionModal
+          isOpen={isTemplateModalOpen}
+          onClose={() => setIsTemplateModalOpen(false)}
+          onSelect={(templateId) => {
+            setData({
+              ...initialResumeState,
+              settings: {
+                ...initialResumeState.settings,
+                template: templateId
+              }
+            });
+            setIsTemplateModalOpen(false);
+            setView('editor');
           }}
         />
       </>

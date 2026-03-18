@@ -133,6 +133,7 @@ export const initialResumeState = {
         },
     ],
     settings: {
+        template: 'standard',
         themeColor: "#004AAD",
         fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     },
